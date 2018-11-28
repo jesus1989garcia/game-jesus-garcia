@@ -13,9 +13,9 @@ function Character(ctx){
     
 
     this.img = new Image();
-    this.img.src = "./assets/imgs/deadpool.jpg";
+    this.img.src = "./assets/imgs/run.png";
     
-    this.img.frames = 9;
+    this.img.frames = 6;
     this.img.frameIndex = 0;
     this.frameCounter = 0;
 };
@@ -53,9 +53,7 @@ Character.prototype.move = function() {
     this.x += this.vx;
     this.vy += 0.5;
     this.y += this.vy;
-    //this.vy += this.gravity;
-    console.log(this.vy);
-    console.log("position" + this.y);
+  
     if (this.y >= this.y0){
         this.y = this.y0;
         this.vy = 0;
@@ -104,4 +102,6 @@ Character.prototype.onKeyDown = function(event) {
           break;
       }
   };
+
+  
 
