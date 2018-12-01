@@ -6,11 +6,14 @@ function Game( canvas ) {
     this.character = new Character(this.ctx);
     this.setListener();
 
+    this.items = [];
+
     
-    this.enemy = [];
+    this.enemies = [];
     //this.addEnemy();
 
     this.drawCount = 0;
+   
 
 
 }
@@ -24,31 +27,63 @@ this.intervalId = setInterval(function() {
     this.clear();
     this.drawAll();
     this.moveAll();
+    if (this.isHit()){
+        this.character.bounce();
+    }
+    
 
 }.bind(this),1000/60);
 };
 
 
+
+
+Game.prototype.isHit = function() {
+    return this.enemies.some(function(enem){
+        return this.character.collision(enem);
+    }.bind(this));
+
+}
+
+
 Game.prototype.addEnemy = function() {
     var singleEnemy = new Enemy( this.ctx);
-    this.enemy.push(singleEnemy);
+    this.enemies.push(singleEnemy);
+}
+
+Game.prototype.addItem = function() {
+    var star = new Star (this.ctx);
+    this.items.push(star);
 }
 
 Game.prototype.drawAll = function( element ) {
     this.bg.draw();
     this.character.draw();
-    this.enemy.forEach(function(enem){
+    this.enemies.forEach(function(enem){
         enem.draw();
+       
     })
-    this.drawCount++;
+    this.items.forEach(function(item){
+        item.draw();
+    });
 
-    if (this.drawCount % 100 ===0 ){
+    this.ctx.font="30px Georgia black";
+    this.ctx.fillText("Points: " + points,this.ctx.canvas.width - 600 ,60);
+    this.drawCount++;
+    var enemyWave = Math.floor(Math.random()*1000 + 300);
+    var itemAppear = Math.floor(Math.random()*1000 );
+    if (this.drawCount % itemAppear === 0){
+        this.addItem();
+        console.log(this.items.length)
+    }
+
+    if (this.drawCount % enemyWave === 0 ){
         this.addEnemy();
         this.drawCount = 0;
-        console.log(this.enemy.length)
+        console.log(this.enemies.length)
         console.log(this.drawCount)
     }
-    this.enemy = this.enemy.filter( function(enem){
+    this.enemies = this.enemies.filter( function(enem){
         return enem.x > 0;
     })
 };
@@ -60,7 +95,13 @@ Game.prototype.clear = function() {
 Game.prototype.moveAll = function( element) {
     this.bg.move();
     this.character.move();
-    this.enemy.forEach( function(enem){
+    this.enemies.forEach( function(enem){
         enem.move();
+        
+});
+this.items.forEach(function(item){
+    item.move();
 });
 }
+
+

@@ -3,7 +3,7 @@ function Character(ctx){
     
     this.x = 50;
     this.y = this.ctx.canvas.height -100;
-    this.y0 = this.y;  // careful with the y0 before the var y declaration
+    this.y0 = this.y;  // careful with the y0 before the var y declaration 
 
     this.w = 50;
     this.h = 70;
@@ -58,6 +58,14 @@ Character.prototype.move = function() {
         this.y = this.y0;
         this.vy = 0;
       }
+
+      if (this.x >= this.ctx.canvas.width - this.w || this.x - this.w <= 0 ) {
+          this.vx *= -2;
+
+      }
+       
+
+     
       
       
 };
@@ -65,7 +73,7 @@ Character.prototype.move = function() {
 Character.prototype.jump = function() {
 
     if (!this.inAir()){
-        this.vy -= 6;
+        this.vy -= 16;
 
     }
 };
@@ -80,11 +88,11 @@ Character.prototype.onKeyDown = function(event) {
         this.jump();
         break;
       case KEY_RIGHT:
-        this.vx += 2;  //o solo x
+        this.vx = 5;  //o solo x
         this.x += this.vx;
         break;
       case KEY_LEFT:
-        this.vx -= 2;
+        this.vx = -3;
         break;
     }
     
@@ -103,5 +111,24 @@ Character.prototype.onKeyDown = function(event) {
       }
   };
 
-  
+  Character.prototype.collision = function(thing){
+    return this.x < thing.x + thing.w &&
+    this.x + this.w > thing.x &&
+    this.y < thing.y + thing.h &&
+    this.y + this.h > thing.y;
+        
+    }
+
+    
+
+    Character.prototype.bounce = function() {
+        this.vy = -20;
+        console.log("hit")
+    }
+
+    Character.prototype.inmune = function() {
+        console.log("caught");
+    }
+
+    
 

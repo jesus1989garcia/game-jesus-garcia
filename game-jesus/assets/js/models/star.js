@@ -1,21 +1,21 @@
-function Enemy(ctx){
+function Star(ctx){
     this.ctx = ctx;
     
     this.x = this.ctx.canvas.width; //here it is
     this.y = this.ctx.canvas.height -100;
     this.y0 = this.y;  // careful with the y0 before the var y declaration
 
-    this.w = 50;
-    this.h = 70;
+    this.w = 30;
+    this.h = 30;
 
-    this.vx = -1;
+    this.vx = -0.5;
     this.vy = 0;
     
 
     this.img = new Image();
-    this.img.src = "./assets/imgs/bomb_anim.png";
+    this.img.src = "./assets/imgs/Star.png";
     
-    this.img.frames = 2;
+    this.img.frames = 6;
     this.img.frameIndex = 0;
     this.frameCounter = 0;
 };
@@ -25,13 +25,13 @@ function Enemy(ctx){
 
 
 
-Enemy.prototype.draw = function() {
+Star.prototype.draw = function() {
     this.ctx.drawImage(
         this.img,
         this.img.frameIndex * Math.floor(this.img.width / this.img.frames),
         0,
         this.img.width / this.img.frames,
-        this.img.height/8,
+        this.img.height,
         this.x,
         this.y,
         this.w,
@@ -41,7 +41,7 @@ Enemy.prototype.draw = function() {
     
 };
 
-Enemy.prototype.animate = function() {
+Star.prototype.animate = function() {
     if (++this.frameCounter % 8 ===0 ) {
         this.frameCounter = 0;
         if (this.img.frameIndex === this.img.frames -1){
@@ -52,7 +52,7 @@ Enemy.prototype.animate = function() {
     }
 };
 
-Enemy.prototype.move = function() {
+Star.prototype.move = function() {
     this.animate();
 
     this.x += this.vx;
@@ -66,3 +66,11 @@ Enemy.prototype.move = function() {
       
       
 };
+Star.prototype.dissapear = function() {
+    //this.
+ 
+var index = array.indexOf(item);
+if (index > -1) {
+  array.splice(index, 1);
+}
+}
