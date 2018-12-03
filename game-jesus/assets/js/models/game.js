@@ -30,19 +30,34 @@ this.intervalId = setInterval(function() {
     if (this.isHit()){
         this.character.bounce();
     }
-    
 
+    this.items.forEach(function(item){
+      if (this.character.collision(item)) {
+        item.state = "taken";
+      }
+
+     }.bind(this)); 
 }.bind(this),1000/60);
 };
 
-
-
+/*Game.prototype.eliminate = function() {
+    this.items.forEach(function(item){
+        items.slice(indexOf.item,1);
+        
+    })
+}*/
+ 
 
 Game.prototype.isHit = function() {
     return this.enemies.some(function(enem){
         return this.character.collision(enem);
     }.bind(this));
 
+}
+Game.prototype.getItem = function() {
+    return this.items.some( function(item){
+        return this.character.collision(item);
+    }.bind(this));
 }
 
 

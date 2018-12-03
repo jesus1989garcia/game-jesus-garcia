@@ -18,6 +18,8 @@ function Star(ctx){
     this.img.frames = 6;
     this.img.frameIndex = 0;
     this.frameCounter = 0;
+
+    this.state = "not taken";
 };
 
 
@@ -26,6 +28,7 @@ function Star(ctx){
 
 
 Star.prototype.draw = function() {
+   if (this.state === "not taken"){
     this.ctx.drawImage(
         this.img,
         this.img.frameIndex * Math.floor(this.img.width / this.img.frames),
@@ -38,7 +41,7 @@ Star.prototype.draw = function() {
         this.h);
         
         this.animate();
-    
+   }
 };
 
 Star.prototype.animate = function() {
@@ -66,11 +69,17 @@ Star.prototype.move = function() {
       
       
 };
-Star.prototype.dissapear = function() {
-    //this.
+
+Star.prototype.collision = function(thing){
+    return this.x < thing.x + thing.w &&
+    this.x + this.w > thing.x &&
+    this.y < thing.y + thing.h &&
+    this.y + this.h > thing.y;
+        
+    }
+Star.prototype.erase = function(){
+
+}
+
  
-var index = array.indexOf(item);
-if (index > -1) {
-  array.splice(index, 1);
-}
-}
+
