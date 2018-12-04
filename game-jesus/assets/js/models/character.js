@@ -18,7 +18,10 @@ function Character(ctx){
     this.img.frames = 6;
     this.img.frameIndex = 0;
     this.frameCounter = 0;
+
+    this.life = 100;
 };
+
 
 Character.prototype.draw = function() {
     this.ctx.drawImage(

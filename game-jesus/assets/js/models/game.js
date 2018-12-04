@@ -13,7 +13,6 @@ function Game( canvas ) {
     //this.addEnemy();
 
     this.drawCount = 0;
-   
 
 
 }
@@ -27,13 +26,17 @@ this.intervalId = setInterval(function() {
     this.clear();
     this.drawAll();
     this.moveAll();
+    this.checkGameOver();
     if (this.isHit()){
         this.character.bounce();
+        this.character.life -= 5;
+        console.log("life " + this.character.life)
     }
 
     this.items.forEach(function(item){
       if (this.character.collision(item)) {
         item.state = "taken";
+        points += 20;
       }
 
      }.bind(this)); 
@@ -84,6 +87,7 @@ Game.prototype.drawAll = function( element ) {
 
     this.ctx.font="30px Georgia black";
     this.ctx.fillText("Points: " + points,this.ctx.canvas.width - 600 ,60);
+    this.ctx.fillText("Life " + this.character.life +"%", this.ctx.canvas.width - 800, 60);
     this.drawCount++;
     var enemyWave = Math.floor(Math.random()*1000 + 300);
     var itemAppear = Math.floor(Math.random()*1000 );
@@ -99,13 +103,27 @@ Game.prototype.drawAll = function( element ) {
         console.log(this.drawCount)
     }
     this.enemies = this.enemies.filter( function(enem){
-        return enem.x > 0;
-    })
+        return enem.x + enem.w > 0;
+    });
+    this.items = this.items.filter( function(star){
+        return star.x + star.w > 0;
+    
+    });
 };
-
+Game.prototype.checkGameOver = function() {
+    if (this.character.life <= 0 ) {
+        alert("Game Over madafaka");
+        
+    }
+}
 Game.prototype.clear = function() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 };
+
+Game.prototype.GameOver = function() {
+    this.img = new Image();
+    this.img.src = "../../imgs/"
+}
 
 Game.prototype.moveAll = function( element) {
     this.bg.move();
