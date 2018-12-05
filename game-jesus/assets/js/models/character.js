@@ -20,6 +20,8 @@ function Character(ctx){
     this.frameCounter = 0;
 
     this.life = 100;
+    
+    this.state = "alive";
 };
 
 
@@ -40,7 +42,7 @@ Character.prototype.draw = function() {
 };
 
 Character.prototype.animate = function() {
-    if (++this.frameCounter % 8 ===0 ) {
+    if (++this.frameCounter % 8 === 0 ) {
         this.frameCounter = 0;
         if (this.img.frameIndex === this.img.frames -1){
             this.img.frameIndex = 0;

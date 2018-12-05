@@ -14,6 +14,8 @@ function Game( canvas ) {
 
     this.drawCount = 0;
 
+    this.panels = new Panels(this.ctx);
+
 
 }
     Game.prototype.setListener = function(){
@@ -42,7 +44,10 @@ this.intervalId = setInterval(function() {
      }.bind(this)); 
 }.bind(this),1000/60);
 };
-
+Game.prototype.stop = function() {
+    clearInterval(this.intervalId);
+    this.intervalId = undefined;
+}
 /*Game.prototype.eliminate = function() {
     this.items.forEach(function(item){
         items.slice(indexOf.item,1);
@@ -76,6 +81,7 @@ Game.prototype.addItem = function() {
 
 Game.prototype.drawAll = function( element ) {
     this.bg.draw();
+    this.panels.draw();
     this.character.draw();
     this.enemies.forEach(function(enem){
         enem.draw();
@@ -85,12 +91,10 @@ Game.prototype.drawAll = function( element ) {
         item.draw();
     });
 
-    this.ctx.font="30px Georgia black";
-    this.ctx.fillText("Points: " + points,this.ctx.canvas.width - 600 ,60);
-    this.ctx.fillText("Life " + this.character.life +"%", this.ctx.canvas.width - 800, 60);
+    this.ctx.fillText("Life " + this.character.life + "%", this.ctx.canvas.width - 800, 60);
     this.drawCount++;
     var enemyWave = Math.floor(Math.random()*1000 + 300);
-    var itemAppear = Math.floor(Math.random()*1000 );
+    var itemAppear = Math.floor(Math.random()*1000 + 100 );
     if (this.drawCount % itemAppear === 0){
         this.addItem();
         console.log(this.items.length)
@@ -112,18 +116,25 @@ Game.prototype.drawAll = function( element ) {
 };
 Game.prototype.checkGameOver = function() {
     if (this.character.life <= 0 ) {
-        alert("Game Over madafaka");
+        this.character.state = "death";
+        if (this.character.state === "death"){
+            
+            this.img = new Image();
+            this.img.src = "./assets/imgs/game-over.png";
+            this.ctx.drawImage(this.img, this.ctx.canvas.width/3, this.ctx.canvas.height/4,700,250);
         
+        setTimeout(function(){
+            this.stop(); 
+    }.bind(this),1000);
+            }
+        }
     }
-}
+ 
+
 Game.prototype.clear = function() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 };
 
-Game.prototype.GameOver = function() {
-    this.img = new Image();
-    this.img.src = "../../imgs/"
-}
 
 Game.prototype.moveAll = function( element) {
     this.bg.move();

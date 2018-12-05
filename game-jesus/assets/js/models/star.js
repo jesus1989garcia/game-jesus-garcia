@@ -5,15 +5,15 @@ function Star(ctx){
     this.y = this.ctx.canvas.height -100;
     this.y0 = this.y;  // careful with the y0 before the var y declaration
 
-    this.w = 30;
-    this.h = 30;
+    this.w = 40;
+    this.h = 40;
 
     this.vx = -0.5;
     this.vy = 0;
     
 
     this.img = new Image();
-    this.img.src = "./assets/imgs/Star.png";
+    this.img.src = "./assets/imgs/coin-bad.png";
     
     this.img.frames = 6;
     this.img.frameIndex = 0;
@@ -45,7 +45,7 @@ Star.prototype.draw = function() {
 };
 
 Star.prototype.animate = function() {
-    if (++this.frameCounter % 8 ===0 ) {
+    if (++this.frameCounter % 20 === 0 ) {
         this.frameCounter = 0;
         if (this.img.frameIndex === this.img.frames -1){
             this.img.frameIndex = 0;
@@ -77,9 +77,7 @@ Star.prototype.collision = function(thing){
     this.y + this.h > thing.y;
         
     }
-Star.prototype.erase = function(){
 
-}
 
  
 
